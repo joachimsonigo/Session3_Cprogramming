@@ -5,9 +5,13 @@
 //-----------------------------------
 // struct
 //-----------------------------------
+typedef struct{
+    int dd,mm,yy; //birthdate
+}date;
 
 typedef struct {
     char name[20], surname[20];
+    date ddn;
     float n1, n2, n3, m;
 } student;
 
@@ -107,18 +111,24 @@ void comparelastname(student *s,char *n,int N){
     }
 }
 
-void comparebirth(student *s,char *n,int N){
+void comparebirth(student *s,int dd,int mm,int yy,int N){
     int result =1;
+    int n[3]={dd,mm,yy};
     for (int i = 0; i < N; ++i) {
-        result = strcmp((s + i)->surname, n);
-        if(result ==0){
-            show_1_student(*(s+i),N);
-            break;
+        if((s + i)->ddn.yy == n[2]){
+            if((s+i)->ddn.mm ==n[1]) {
+                if ((s + i)->ddn.yy == n[0]) {
+                    show_1_student(*(s + i), N);
+                    break;
+                }
+            }
+            }
         }
-    }
 }
+
 void search(student *s,int N){
-    char sn,sl,sd=0;
+    char sn,sl=0;
+    int dd,mm,yy=0;
     line();
     printf("\nSearch Menu");
     line();
@@ -144,11 +154,15 @@ void search(student *s,int N){
             break;
         }
         case 3:{
+            int booldate=0;
+            int dd,mm,yy;
             do {
                 printf("\nPlease enter the student's date of birth "); //TODO
-                scanf("%s",&sd);
-            }while(checkdate()=! 1);
-            comparebirth(s,&sd,N);
+                printf("\nEnter date (DD/MM/YYYY format): ");
+                scanf("%d/%d/%d",&dd,&mm,&yy);
+                booldate = checkdate(dd,mm,yy);
+            }while(booldate != 1);
+            comparebirth(s,dd,mm,yy,N);
             break;
         }
     }
