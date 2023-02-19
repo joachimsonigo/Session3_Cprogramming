@@ -19,7 +19,16 @@ typedef struct {
 // func
 //-----------------------------------
 
-date enterdate();
+date enterdate() {
+    date result;
+    int boolcheck =0;
+    do {
+        printf("\nBirthdate : \n(DD/MM/YYYY format)\n");
+        scanf("%d/%d/%d",&result.dd,&result.mm,&result.yy);
+        boolcheck = checkdate(result.dd,result.mm,result.yy);
+    }while(boolcheck!=1);
+    return result;
+}
 
 student Enter_1_Student(int n) {
     student s;
@@ -47,17 +56,6 @@ student Enter_1_Student(int n) {
 
     s.ddn = enterdate();
     return (s);
-}
-
-date enterdate() {
-    date result;
-    int boolcheck =0;
-    do {
-        printf("\nBirthdate : \n(DD/MM/YYYY format)\n");
-        scanf("%d/%d/%d",&result.dd,&result.mm,&result.yy);
-        boolcheck = checkdate(result.dd,result.mm,result.yy);
-    }while(boolcheck!=1);
-    return result;
 }
 
 //-----------------------------------
@@ -107,7 +105,7 @@ void show_n_student(student *s, int n) {
         show_1_student(*(s + i), i + 1);
 }
 
-void comparename(student *s,char * n,int N){
+void comparename(student *s,char *n,int N){
     int result =1;
     for (int i = 0; i < N; ++i) {
         result = strcmp((s + i)->name, n);
@@ -143,7 +141,63 @@ void comparebirth(student *s,int dd,int mm,int yy,int N){
             }
         }
 }
+void modify(student *s, int n) {
+    char name[20], surname[20];
+    int i, N = 0;
+    printf("\nPlease enter the name and surname of the student you want to modify: ");
+    printf("\nName: ");
+    scanf("%s", name);
+    printf("\nSurname: ");
+    scanf("%s", surname);
 
+    for (i = 0; i < n; i++) {
+        if (strcmp((s+i)->name, name) == 0 && strcmp((s+i)->surname, surname) == 0) {
+            N = 1;
+            break;
+        }
+    }
+    if (N == 1) {
+        printf("\nStudent record for %s %s found.\n", name, surname);
+        printf("\nEnter the new data for the student:\n");
+        printf("Name: ");
+        scanf("%s", s[i].name);
+        printf("Surname: ");
+        scanf("%s", s[i].surname);
+        printf("Grade 1: ");
+        scanf("%f", &(s+i)->n1);
+        printf("Grade 2: ");
+        scanf("%f", &(s+i)->n2);
+        printf("Grade 3: ");
+        scanf("%f", &(s+i)->n3);
+        printf("New data for %s %s updated.\n", (s+i)->name, (s+i)->surname);
+    } else {
+        printf("Student record for %s %s not found.\n", name, surname);
+    }
+}
+
+void erase(student *s, int n) {
+    char name[20], surname[20];
+    int i, j, N = 0;
+    printf("\nPlease enter the name and surname of the student : ");
+    printf("\nName : ");
+    scanf("%s", name);
+    printf("\nSurname : ");
+    scanf("%s", surname);
+
+    for (i = 0; i < n; i++) {
+        if (strcmp((s+i)->name, name) == 0 && strcmp((s+i)->surname, surname) == 0) {
+            N = 1;
+            break;
+        }
+    }
+    if (N==1) {
+        for (j = i; j < n - 1; j++)
+            *(s+j) = *(s + j + 1);
+        printf("Student record for %s %s erased.\n", name, surname);
+    } else {
+        printf("Student record for %s %s not found.\n", name, surname);
+    }
+}
 void search(student *s,int N){
     char sn,sl=0;
     int dd,mm,yy=0;
@@ -173,20 +227,21 @@ void search(student *s,int N){
         }
         case 3:{
             int booldate=0;
-            int dd,mm,yy;
             do {
-                printf("\nPlease enter the student's date of birth "); //TODO
+                printf("\nPlease enter the student's date of birth ");
                 printf("\nEnter date (DD/MM/YYYY format): ");
                 scanf("%d/%d/%d",&dd,&mm,&yy);
                 booldate = checkdate(dd,mm,yy);
-            }while(booldate != 1);
+            }while(booldate != 1); //todo why do you not work?
             comparebirth(s,dd,mm,yy,N);
             break;
         }
+        case 4:
+            break;
     }
 }
 //-----------------------------
-//--------MAIN PROGRAM--------
+//--------MAIN PROGRAM---------
 //-----------------------------
 void exo4() {
     student *s;
@@ -200,8 +255,8 @@ void exo4() {
             printf("\n 1- Enter_Student");
             printf("\n 2- Show_Student");
             printf("\n 3- Search Student");
-            printf("\n 4- Modify Student"); //todo
-            printf("\n 5- Erase Student");  //todo
+            printf("\n 4- Modify Student"); //todo giov has it normally
+            printf("\n 5- Erase Student");  //todo stole the one off of giov
             printf("\n 6- END ");
             printf("\n------------------------");
             printf("\n What is your choice ? : ");
@@ -230,15 +285,18 @@ void exo4() {
             system("pause");
         }
         if (g == 3){
-            search(s,N);
+            search(s,N);//todo doesn't work for dates
         }
         if(g == 4){
-            search(s,N);
+            modify(s,N);
         }
         if(g == 5){
-
+            erase(s,N);
         }
     } while (g != 6);
 
     free(s);
 }
+
+//todo fix the compare dates
+//todo fix the erase function
