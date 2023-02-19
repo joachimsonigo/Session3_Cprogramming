@@ -19,6 +19,8 @@ typedef struct {
 // func
 //-----------------------------------
 
+date enterdate();
+
 student Enter_1_Student(int n) {
     student s;
     printf("\n------------------------");
@@ -40,15 +42,24 @@ student Enter_1_Student(int n) {
         printf("3rd grade :", s.n3);
         scanf("%f", &s.n3);
     } while (0 > s.n3 || s.n3 > 20);
+
     s.m = (s.n1 + s.n2 + s.n3) / 3;
-    int check=0;
-    do {
-        printf("\nBirthdate : \n(DD/MM/YYYY format)\n");
-        scanf("%d/%d/%d",&s.ddn.dd,&s.ddn.mm,&s.ddn.yy);
-        check = checkdate(s.ddn.dd,s.ddn.mm,s.ddn.yy);
-    }while(check=!1);
+
+    s.ddn = enterdate();
     return (s);
 }
+
+date enterdate() {
+    date result;
+    int boolcheck =0;
+    do {
+        printf("\nBirthdate : \n(DD/MM/YYYY format)\n");
+        scanf("%d/%d/%d",&result.dd,&result.mm,&result.yy);
+        boolcheck = checkdate(result.dd,result.mm,result.yy);
+    }while(boolcheck!=1);
+    return result;
+}
+
 //-----------------------------------
 void line(){
     printf("\n------------------------");
@@ -62,6 +73,7 @@ void show_1_student(student s, int n) {
     printf("\nGrade 2: %.2f", s.n2);
     printf("\nGrade 3: %.2f", s.n3);
     printf("\nAverage: %.2f", s.m);
+    printf("\nBirthdate : %d/%d/%d",s.ddn.dd,s.ddn.mm,s.ddn.yy);
 }
 //-----------------------------------
 // n student
