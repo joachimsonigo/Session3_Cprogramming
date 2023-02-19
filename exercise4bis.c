@@ -29,18 +29,24 @@ student Enter_1_Student(int n) {
     printf("Surname : ");
     scanf("%s", &s.surname);
     do {
-        printf("Note 1 :", s.n1);
+        printf("1st grade:", s.n1);
         scanf("%f", &s.n1);
     } while (0 > s.n1 || s.n1 > 20);
     do {
-        printf("Note 2 :", s.n2);
+        printf("2nd grade :", s.n2);
         scanf("%f", &s.n2);
     } while (0 > s.n2 || s.n2 > 20);
     do {
-        printf("Note 3 :", s.n3);
+        printf("3rd grade :", s.n3);
         scanf("%f", &s.n3);
     } while (0 > s.n3 || s.n3 > 20);
     s.m = (s.n1 + s.n2 + s.n3) / 3;
+    int check=0;
+    do {
+        printf("\nBirthdate : \n(DD/MM/YYYY format)\n");
+        scanf("%d/%d/%d",&s.ddn.dd,&s.ddn.mm,&s.ddn.yy);
+        check = checkdate(s.ddn.dd,s.ddn.mm,s.ddn.yy);
+    }while(check=!1);
     return (s);
 }
 //-----------------------------------
