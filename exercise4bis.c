@@ -132,14 +132,20 @@ void comparebirth(student *s,int dd,int mm,int yy,int N){
     int n[3]={dd,mm,yy};
     for (int i = 0; i < N; ++i) {
         if((s + i)->ddn.yy == n[2]){
-            if((s+i)->ddn.mm ==n[1]) {
-                if ((s + i)->ddn.yy == n[0]) {
-                    show_1_student(*(s + i), N);
+            if((s+i)->ddn.mm == n[1]) {
+                if ((s + i)->ddn.dd == n[0]) {
+                    show_1_student(*(s + i), (i+1));
                     break;
                 }
+                else
+                    printf("\nno students have this date of birth in the system");
             }
-            }
+            else
+                printf("\nno students have this date of birth in the system");
         }
+        else
+            printf("\nno students have this date of birth in the system");
+    }
 }
 void modify(student *s, int n) {
     char name[20], surname[20];
@@ -232,7 +238,7 @@ void search(student *s,int N){
                 printf("\nEnter date (DD/MM/YYYY format): ");
                 scanf("%d/%d/%d",&dd,&mm,&yy);
                 booldate = checkdate(dd,mm,yy);
-            }while(booldate != 1); //todo why do you not work?
+            }while(booldate != 1);
             comparebirth(s,dd,mm,yy,N);
             break;
         }
