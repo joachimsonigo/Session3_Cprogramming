@@ -5,15 +5,6 @@
 //-----------------------------------
 // struct
 //-----------------------------------
-typedef struct{
-    int dd,mm,yy; //birthdate
-}date;
-
-typedef struct {
-    char name[20], surname[20];
-    date ddn;
-    float n1, n2, n3, m;
-} student;
 
 //-----------------------------------
 // func
@@ -59,9 +50,6 @@ student Enter_1_Student(int n) {
 }
 
 //-----------------------------------
-void line(){
-    printf("\n------------------------");
-}
 
 void show_1_student(student s, int n) {
     printf("\n--------------\nStudent %d\n--------------", n);
@@ -176,6 +164,7 @@ void modify(student *s, int n) {
         printf("Grade 3: ");
         scanf("%f", &(s+i)->n3);
         printf("New data for %s %s updated.\n", (s+i)->name, (s+i)->surname);
+        writetocsv(s,n);
     } else {
         printf("Student record for %s %s not found.\n", name, surname);
     }
@@ -253,16 +242,17 @@ void exo4() {
     student *s;
     int n, g, N = 0;
     char sn,sl,sd;
+    N = countnumbercsv();
     do {
         do {
             printf("\n------------------------");
-            printf("\n   Menu ");
+            printf("\n         Menu ");
             printf("\n------------------------");
             printf("\n 1- Enter_Student");
             printf("\n 2- Show_Student");
             printf("\n 3- Search Student");
             printf("\n 4- Modify Student");
-            printf("\n 5- Erase Student");  //todo steal the one off of giov
+            printf("\n 5- Erase Student");
             printf("\n 6- END ");
             printf("\n------------------------");
             printf("\n What is your choice ? : ");
@@ -283,15 +273,42 @@ void exo4() {
                 N = N + n;
                 // printf(" en travail ") ;
             }
+            int choicew=0;
+            do {
+                printf("\nWould you like to write to file?\n(1 for yes and 0 for no)");
+                scanf("%d",&choicew);
+            }while(choicew<0 || choicew>1);
+            if(choicew==1)
+                writetocsv(s,N);
         }
 
         if (g == 2) {
-            show_n_student(s, N);
-            printf("\n");
-            system("pause");
+            int choicep=0;
+            if(countnumbercsv()==0){
+                show_n_student(s, N);
+                printf("\n");
+                system("pause");
+            }
+            else{
+                do {
+                    printf("\nWould you like to print out the csv file or the current student array?\n1. Student array\n2. CSV file\n");
+                    scanf("%d",&choicep);
+                }while(choicep <1 || choicep>2);
+                switch (choicep) {
+                    case 1:{
+                        show_n_student(s, N);
+                        printf("\n");
+                        system("pause");
+                    }
+                    case 2:{
+                        showstudentsfromcsv(s,N);
+                        system("pause");
+                    }
+                }
+            }
         }
         if (g == 3){
-            search(s,N);//todo doesn't work for dates
+            search(s,N);
         }
         if(g == 4){
             modify(s,N);
@@ -300,12 +317,10 @@ void exo4() {
             erase(s,N);
             N--;
             s = (student *)realloc(s,(N) * sizeof(student));
+            writetocsv(s,N);
             system("pause");
         }
     } while (g != 6);
-
     free(s);
 }
 
-//todo fix the compare dates
-//todo fix the erase function
