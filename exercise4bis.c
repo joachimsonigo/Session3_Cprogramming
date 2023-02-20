@@ -261,8 +261,8 @@ void exo4() {
             printf("\n 1- Enter_Student");
             printf("\n 2- Show_Student");
             printf("\n 3- Search Student");
-            printf("\n 4- Modify Student"); //todo giov has it normally
-            printf("\n 5- Erase Student");  //todo stole the one off of giov
+            printf("\n 4- Modify Student");
+            printf("\n 5- Erase Student");  //todo steal the one off of giov
             printf("\n 6- END ");
             printf("\n------------------------");
             printf("\n What is your choice ? : ");
@@ -298,6 +298,9 @@ void exo4() {
         }
         if(g == 5){
             erase(s,N);
+            N--;
+            s = (student *)realloc(s,(N) * sizeof(student));
+            system("pause");
         }
     } while (g != 6);
 
