@@ -163,10 +163,11 @@ void modify(student *s, int n) {
         scanf("%f", &(s+i)->n2);
         printf("Grade 3: ");
         scanf("%f", &(s+i)->n3);
+        (s+i)->ddn = enterdate();
         printf("New data for %s %s updated.\n", (s+i)->name, (s+i)->surname);
         writetocsv(s,n);
     } else {
-        printf("Student record for %s %s not found.\n", name, surname);
+        printf("\nStudent record for %s %s not found.\n", name, surname);
     }
 }
 
